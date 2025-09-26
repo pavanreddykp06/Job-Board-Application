@@ -1,0 +1,164 @@
+{% extends "common.html" %}
+{% block content %}
+<div class="container mt-5">
+  <form method="post" class="card p-4 shadow col-md-8 mx-auto">
+    {% csrf_token %}
+    <h3 class="mb-4 text-center">Register</h3>
+
+    {% if success %}
+      <div class="alert alert-success text-center">{{ success }}</div>
+    {% endif %}
+
+    {% if error %}
+      <div class="alert alert-danger">
+        {% for field, messages in error.items %}
+          {% for message in messages %}
+            <strong>{{ field|capfirst }}:</strong> {{ message }}<br>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Full Name + Username -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="full_name">Full Name</label>
+        <input type="text" class="form-control" name="full_name" required>
+      </div>
+      <div class="col">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" required>
+      </div>
+    </div>
+
+    <!-- Email + Password -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+      <div class="col">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+    </div>
+
+    <!-- Gender + Role -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="gender">Gender</label>
+        <select class="form-select" name="gender" required>
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="role">Role</label>
+        <select class="form-select" name="role" required>
+          <option value="">Select Role</option>
+          <option value="employer">Employer</option>
+          <option value="job_seeker">Job Seeker</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Country (fixed to India) + State -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="country">Country</label>
+        <select class="form-select" name="country" id="country" onchange="updateStates()" required>
+          <option value="India" selected>India</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="state">State</label>
+        <select class="form-select" name="state" id="state" onchange="updateCities()" required>
+          <option value="">Select State</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- City + Phone -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="city">City</label>
+        <select class="form-select" name="city" id="city" required>
+          <option value="">Select City</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="phone">Phone Number</label>
+        <div class="input-group">
+          <span class="input-group-text">+91</span>
+          <input type="tel" class="form-control" name="phone" required placeholder="e.g. 9876543210"
+                 pattern="\d{10}" maxlength="10" title="Please enter exactly 10 digits">
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+
+    <div class="text-center mt-3">
+      Already have an account?
+      <a href="{% url 'login_form' %}">Login</a>
+    </div>
+  </form>
+</div>
+
+<!-- Location script -->
+<script>
+  const locationData = {
+    "India": {
+      "Karnataka": ["Bangalore", "Mysore", "Hubli", "Mangalore", "Belgaum"],
+      "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane"],
+      "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Salem", "Trichy"],
+      "Delhi": ["New Delhi", "Dwarka", "Rohini", "Saket", "Karol Bagh"],
+      "West Bengal": ["Kolkata", "Howrah", "Durgapur", "Siliguri", "Asansol"]
+    }
+  };
+
+  function updateStates() {
+    const country = document.getElementById("country").value;
+    const stateSelect = document.getElementById("state");
+    const citySelect = document.getElementById("city");
+
+    stateSelect.innerHTML = '<option value="">Select State</option>';
+    citySelect.innerHTML = '<option value="">Select City</option>';
+
+    if (country && locationData[country]) {
+      const states = Object.keys(locationData[country]);
+      states.forEach(state => {
+        const option = document.createElement("option");
+        option.value = state;
+        option.text = state;
+        stateSelect.appendChild(option);
+      });
+    }
+  }
+
+  function updateCities() {
+    const country = document.getElementById("country").value;
+    const state = document.getElementById("state").value;
+    const citySelect = document.getElementById("city");
+
+    citySelect.innerHTML = '<option value="">Select City</option>';
+
+    if (country && state && locationData[country][state]) {
+      locationData[country][state].forEach(city => {
+        const option = document.createElement("option");
+        option.value = city;
+        option.text = city;
+        citySelect.appendChild(option);
+      });
+    }
+  }
+
+  // Auto-trigger on page load for default country
+  window.onload = function () {
+    updateStates();
+  };
+</script>
+{% endblock %}

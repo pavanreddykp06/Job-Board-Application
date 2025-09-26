@@ -1,0 +1,17 @@
+{% extends 'common.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container mt-5">
+    <h2>All Recent Activities</h2>
+    <div class="list-group mt-3">
+        {% for activity in activities %}
+        <div class="list-group-item">
+            <h6 class="mb-1">{{ activity.description }}</h6>
+            <small class="text-muted">{{ activity.timestamp|naturaltime }}</small>
+        </div>
+        {% empty %}
+        <div class="list-group-item">No activities yet.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

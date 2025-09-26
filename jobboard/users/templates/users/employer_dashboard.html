@@ -1,0 +1,160 @@
+{% extends 'common.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Welcome, {{ request.user.full_name }}!</h2>
+            <p class="text-muted">Manage your job postings and applications</p>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">12</h3>
+                    <p class="card-text text-muted">Active Jobs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">48</h3>
+                    <p class="card-text text-muted">Applications</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">7</h3>
+                    <p class="card-text text-muted">Pending Reviews</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">3</h3>
+                    <p class="card-text text-muted">Hired This Month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Actions -->
+    <div class="row">
+        <!-- Job Management Card -->
+        <div class="col-md-4 mb-4">
+            <a href="{% url 'manage_jobs' %}" class="text-decoration-none text-dark">
+                <div class="card h-100 clickable-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Job Management</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Create and manage your job postings, review applications, and track hiring progress.</p>
+                        <ul class="list-unstyled">
+                            <li>• Create job postings</li>
+                            <li>• Edit existing jobs</li>
+                            <li>• Manage applications</li>
+                            <li>• Track hiring status</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn btn-primary w-100">Manage Jobs</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Applications Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Applications</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Review candidate applications, schedule interviews, and communicate with applicants.</p>
+                    <ul class="list-unstyled">
+                        <li>• Review resumes</li>
+                        <li>• Schedule interviews</li>
+                        <li>• Send responses</li>
+                        <li>• Track candidates</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary w-100">View Applications</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Profile Card -->
+        <div class="col-md-4 mb-4">
+            <a href="{% url 'view_company_profile' %}" class="text-decoration-none text-dark">
+                <div class="card h-100 clickable-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Company Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Update your company information, add details about your workplace culture and benefits.</p>
+                        <ul class="list-unstyled">
+                            <li>• Company details</li>
+                            <li>• Contact information</li>
+                            <li>• Company description</li>
+                            <li>• Upload logo</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn btn-primary w-100">View Profile</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ✅ Dynamic Recent Activity -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Activity</h5>
+                    <a href="{% url 'all_employer_activities' %}" class="btn btn-sm btn-outline-secondary float-end">
+                            View All &rarr;
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if recent_activities %}
+                        <div class="list-group list-group-flush">
+                            {% for activity in recent_activities %}
+                                <div class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ activity.get_activity_type_display }}</h6>
+                                        <p class="mb-1">{{ activity.description }}</p>
+                                        <small class="text-muted">{{ activity.timestamp|naturaltime }}</small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No recent activity to display.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional styling for hover -->
+<style>
+  .clickable-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+  }
+</style>
+{% endblock %}

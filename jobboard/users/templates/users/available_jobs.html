@@ -1,0 +1,16 @@
+{% extends 'common.html' %}
+{% block content %}
+<h2>Available Jobs</h2>
+<ul>
+    {% for job in jobs %}
+        <li>
+            <h4>{{ job.title }}</h4>
+            <p>{{ job.description|truncatechars:100 }}</p>
+            <a href="{% url 'job_detail' job.id %}">View Details</a> |
+            <a href="{% url 'apply_for_job' job.id %}">Apply</a>
+        </li>
+    {% empty %}
+        <li>No jobs found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

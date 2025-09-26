@@ -1,0 +1,39 @@
+{% extends "common.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card p-4 shadow mx-auto col-md-6">
+
+    <!-- Edit Button Top Right -->
+    <div class="d-flex justify-content-end">
+      <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+    </div>
+
+    <!-- Profile Icon -->
+    <div class="text-center mt-2">
+      <i class="fas fa-user-circle fa-5x text-secondary"></i>
+    </div>
+
+    <!-- Full Name Below Icon -->
+    <h3 class="text-center mt-2 mb-4">{{ user.full_name }}</h3>
+
+    <!-- Success Message -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Profile Details Table -->
+    <table class="table table-bordered">
+      <tr><th>Username</th><td>{{ user.username }}</td></tr>
+      <tr><th>Email</th><td>{{ user.email }}</td></tr>
+      <tr><th>Gender</th><td>{{ user.gender|capfirst }}</td></tr>
+      <tr><th>Phone</th><td>{{ user.phone }}</td></tr>
+      <tr><th>Country</th><td>{{ user.country }}</td></tr>
+      <tr><th>State</th><td>{{ user.state }}</td></tr>
+      <tr><th>City</th><td>{{ user.city }}</td></tr>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'common.html' %} 
+
+{% block content %} 
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Welcome, {{ request.user.username }}!</h2>
+            <p class="text-muted">Find your next career opportunity</p>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">156</h3>
+                    <p class="card-text text-muted">Jobs Available</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">8</h3>
+                    <p class="card-text text-muted">Applications Sent</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">3</h3>
+                    <p class="card-text text-muted">Interviews Scheduled</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">24</h3>
+                    <p class="card-text text-muted">Profile Views</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Actions -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Find Jobs</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Search and discover job opportunities that match your skills and career goals.</p>
+                    <ul class="list-unstyled">
+                        <li>• Browse job listings</li>
+                        <li>• Filter by location</li>
+                        <li>• Filter by salary</li>
+                        <li>• Save favorite jobs</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'browse_jobs' %}" class="btn btn-primary w-100">Browse Jobs</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">My Applications</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Track the status of your job applications and manage your application history.</p>
+                    <ul class="list-unstyled">
+                        <li>• View application status</li>
+                        <li>• Track responses</li>
+                        <li>• Interview schedules</li>
+                        <li>• Application history</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'track_applications' %}" class="btn btn-primary w-100">View Applications</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">My Profile</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Keep your profile updated to attract employers and showcase your skills.</p>
+                    <ul class="list-unstyled">
+                        <li>• Update resume</li>
+                        <li>• Add skills</li>
+                        <li>• Work experience</li>
+                        <li>• Portfolio links</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'edit_jobseeker_profile' %}" class="btn btn-primary w-100">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Jobs -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recommended Jobs</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="card-title mb-0">Senior Frontend Developer</h6>
+                                        <span class="badge bg-primary">New</span>
+                                    </div>
+                                    <p class="text-muted mb-2">TechCorp Solutions</p>
+                                    <p class="small text-muted mb-2">San Francisco, CA • Remote Available</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">$90k - $120k</span>
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="card-title mb-0">UX/UI Designer</h6>
+                                        <span class="badge bg-secondary">Featured</span>
+                                    </div>
+                                    <p class="text-muted mb-2">Design Studio Inc.</p>
+                                    <p class="small text-muted mb-2">New York, NY • Hybrid</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold">$75k - $95k</span>
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

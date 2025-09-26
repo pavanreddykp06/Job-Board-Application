@@ -1,0 +1,20 @@
+{% extends 'common.html' %}
+{% block content %}
+<h2>Browse Jobs</h2>
+
+<form method="get">
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<ul>
+  {% for job in jobs %}
+    <li>
+      <strong>{{ job.title }}</strong> - {{ job.location_city }}, {{ job.location_state }} <br>
+      <a href="{% url 'job_detail' job.id %}">View</a>
+    </li>
+  {% empty %}
+    <li>No jobs found.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

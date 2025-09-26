@@ -1,0 +1,8 @@
+{% extends "common.html" %}
+{% block content %}
+<meta http-equiv="refresh" content="5;url={% url 'login_form' %}">
+  <div class="container mt-5 text-center">
+    <h4 class="mb-3 text-success">✅ Your password has been reset successfully!</h4>
+    <a href="{% url 'login_form' %}" class="btn btn-success">Go to Login</a>
+  </div>
+{% endblock %}

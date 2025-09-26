@@ -1,0 +1,11 @@
+{% extends 'common.html' %}
+{% block content %}
+<h2>My Activities</h2>
+<ul>
+    {% for activity in activities %}
+        <li>{{ activity.timestamp|date:"Y-m-d H:i" }} - {{ activity.description }}</li>
+    {% empty %}
+        <li>No activities to show.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "common.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card p-4 shadow col-md-8 mx-auto">
+    <form method="post">
+      {% csrf_token %}
+      <h3 class="mb-4 text-center">Edit Profile</h3>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Full Name & Email -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="full_name">Full Name</label>
+          <input type="text" class="form-control" name="full_name" required value="{{ user.full_name }}">
+        </div>
+        <div class="col">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" required value="{{ user.email }}">
+        </div>
+      </div>
+
+      <!-- Gender & Phone -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="gender">Gender</label>
+          <select class="form-select" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="male" {% if user.gender == "male" %}selected{% endif %}>Male</option>
+            <option value="female" {% if user.gender == "female" %}selected{% endif %}>Female</option>
+            <option value="other" {% if user.gender == "other" %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="phone">Phone Number</label>
+          <input type="tel" class="form-control" name="phone" required maxlength="10" pattern="[0-9]{10}" value="{{ user.phone }}">
+        </div>
+      </div>
+
+      <!-- Country & State -->
+      <div class="row mb-3">
+        <div class="col">
+          <label for="country">Country</label>
+          <select class="form-select" name="country" id="country" onchange="updateStates()" required>
+            <option value="">Select Country</option>
+            {% for c in countries %}
+              <option value="{{ c }}" {% if user.country == c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col">
+          <label for="state">State</label>
+          <select class="form-select" name="state" id="state" onchange="updateCities()" required>
+            <option value="">Select State</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- City -->
+      <div class="mb-3">
+        <label for="city">City</label>
+        <select class="form-select" name="city" id="city" required>
+          <option value="">Select City</option>
+        </select>
+      </div>
+
+      <!-- Change Password -->
+      <div class="mb-3 text-end">
+        <a href="{% url 'password_reset' %}" class="btn btn-outline-secondary btn-sm">Change Password</a>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-success w-100">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const locationData = {
+    "India": {
+      "Karnataka": ["Bangalore", "Mysore", "Hubli"],
+      "Maharashtra": ["Mumbai", "Pune", "Nagpur"],
+      "Delhi": ["New Delhi", "Dwarka", "Saket"]
+    },
+    "USA": {
+      "California": ["Los Angeles", "San Francisco"],
+      "Texas": ["Houston", "Dallas"]
+    },
+    "UK": {
+      "England": ["London", "Manchester"],
+      "Scotland": ["Edinburgh", "Glasgow"]
+    }
+  };
+
+  function updateStates() {
+    const country = document.getElementById("country").value;
+    const stateSelect = document.getElementById("state");
+    const citySelect = document.getElementById("city");
+
+    stateSelect.innerHTML = '<option value="">Select State</option>';
+    citySelect.innerHTML = '<option value="">Select City</option>';
+
+    if (country && locationData[country]) {
+      Object.keys(locationData[country]).forEach(state => {
+        const option = document.createElement("option");
+        option.value = state;
+        option.text = state;
+        if (state === "{{ user.state }}") option.selected = true;
+        stateSelect.appendChild(option);
+      });
+
+      updateCities();
+    }
+  }
+
+  function updateCities() {
+    const country = document.getElementById("country").value;
+    const state = document.getElementById("state").value;
+    const citySelect = document.getElementById("city");
+
+    citySelect.innerHTML = '<option value="">Select City</option>';
+
+    if (country && state && locationData[country] && locationData[country][state]) {
+      locationData[country][state].forEach(city => {
+        const option = document.createElement("option");
+        option.value = city;
+        option.text = city;
+        if (city === "{{ user.city }}") option.selected = true;
+        citySelect.appendChild(option);
+      });
+    }
+  }
+
+  window.onload = function () {
+    updateStates();
+  };
+</script>
+{% endblock %}

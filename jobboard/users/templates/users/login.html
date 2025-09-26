@@ -1,0 +1,52 @@
+{% extends "common.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card p-4 shadow col-md-6 mx-auto">
+    <form method="post">
+      {% csrf_token %}
+      <h3 class="mb-4 text-center">Login</h3>
+
+      {# ✅ Display success or info messages (e.g., after registration) #}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      {% if tokens %}
+        <div class="alert alert-success">
+          <p><strong>Login successful!</strong></p>
+          <p><strong>Access Token:</strong> {{ tokens.access }}</p>
+          <p><strong>Refresh Token:</strong> {{ tokens.refresh }}</p>
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+
+    <p class="text-center mt-3 mb-0">
+      Don’t have an account?
+      <a href="{% url 'register_form' %}">Register</a>
+    </p>
+
+    <p class="text-center mt-3 mb-0">
+      <a href="{% url 'password_reset' %}">Forgot Password?</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'common.html' %}
+{% block content %}
+<div class="container my-5 d-flex justify-content-center">
+  <div class="card shadow-sm w-100" style="max-width: 800px;">
+    <div class="card-body p-4">
+      <!-- Header -->
+      <div class="d-flex align-items-center mb-4">
+        {% if profile.logo %}
+          <img src="{{ profile.logo.url }}" alt="Company Logo" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: contain;">
+        {% else %}
+          <div class="bg-light border rounded text-center d-flex align-items-center justify-content-center me-3" style="width: 80px; height: 80px;">
+            <span class="text-muted small">No Logo</span>
+          </div>
+        {% endif %}
+        <div>
+          <h3 class="mb-1">{{ profile.company_name }}</h3>
+          <p class="text-muted mb-0">{{ profile.industry }} | {{ profile.company_size }}</p>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="mb-4">
+        <h5 class="text-primary">About Us</h5>
+        <p>{{ profile.description }}</p>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="row gy-3">
+        <div class="col-md-6">
+          <strong>📍 Location:</strong><br>
+          {{ profile.location_city }}, {{ profile.location_state }}
+        </div>
+        <div class="col-md-6">
+          <strong>🌐 Website:</strong><br>
+          <a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a>
+        </div>
+        <div class="col-md-6">
+          <strong>📧 Email:</strong><br>
+          <a href="mailto:{{ profile.contact_email }}">{{ profile.contact_email }}</a>
+        </div>
+        <div class="col-md-6">
+          <strong>📞 Phone:</strong><br>
+          <a href="tel:{{ profile.contact_phone }}">{{ profile.contact_phone }}</a>
+        </div>
+
+        {% if profile.linkedin %}
+          <div class="col-md-6">
+            <strong>🔗 LinkedIn:</strong><br>
+            <a href="{{ profile.linkedin }}" target="_blank">{{ profile.linkedin }}</a>
+          </div>
+        {% endif %}
+        {% if profile.twitter %}
+          <div class="col-md-6">
+            <strong>🐦 Twitter:</strong><br>
+            <a href="{{ profile.twitter }}" target="_blank">{{ profile.twitter }}</a>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="mt-4 text-end">
+        <a href="{% url 'edit_company_profile' %}" class="btn btn-primary">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
